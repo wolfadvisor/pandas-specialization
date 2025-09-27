@@ -1,4 +1,7 @@
-.idea/ *.iml __pycache__/ *.pyc
+.idea/
+*.iml
+__pycache__/
+*.pyc
 *.pyo
 *.pyd
 *.egg
@@ -18,4 +21,4 @@ htmlcov/
 Thumbs.db
 *.swp
 *.swo
-.ipynb_checkpoints/ 
+.ipynb_checkpoints/
