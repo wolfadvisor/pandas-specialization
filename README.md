@@ -26,13 +26,16 @@ Cada semana está organizada em pastas com códigos, exercícios e projetos apli
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
-- Python 3.11+
-- Pandas
-- Numpy
-- Matplotlib / Seaborn
-- OpenPyXL
-- Jupyter Notebook
+## 🛠️ Tecnologias Utilizadas## 🛠️ Tecnologias Utilizadas
+
+- [![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)](https://www.python.org/)
+- [![Pandas](https://img.shields.io/badge/Pandas-1.6+-brightgreen?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+- [![NumPy](https://img.shields.io/badge/NumPy-1.27+-blue?logo=numpy&logoColor=white)](https://numpy.org/)
+- [![Matplotlib](https://img.shields.io/badge/Matplotlib-3.8+-orange?logo=matplotlib&logoColor=white)](https://matplotlib.org/)
+- [![Seaborn](https://img.shields.io/badge/Seaborn-0.13+-blueviolet?logo=seaborn&logoColor=white)](https://seaborn.pydata.org/)
+- [![OpenPyXL](https://img.shields.io/badge/OpenPyXL-3.1+-red?logo=python&logoColor=white)](https://openpyxl.readthedocs.io/)
+- [![Jupyter](https://img.shields.io/badge/Jupyter-orange?logo=jupyter&logoColor=white)](https://jupyter.org/)
+
 
 
 ---
@@ -67,3 +70,4 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+
