@@ -1,0 +1,21 @@
+.idea/ *.iml __pycache__/ *.pyc
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.env
+.venv
+env/
+venv/
+*.log
+*.sqlite3
+.coverage
+*.cover
+htmlcov/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.ipynb_checkpoints/ 
