@@ -12,7 +12,9 @@ def alinhar_series(series: pd.Series) -> pd.Series:
          for idx, val in series.items()],
         name=series.name
     )
-    return resultado
+
+def alinhar_dataframe(df: pd.DataFrame):
+    return df.to_string()
 
 
 
