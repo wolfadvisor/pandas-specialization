@@ -5,7 +5,7 @@
 
 """
 import pandas as pd
-import ClassesApoio as CA
+
 from ClassesApoio.Format import alinhar_series
 
 #Criando a primeira série.
