@@ -5,7 +5,7 @@ import pandas as pd
 
 
 #Criar uma nova serie de dados para atualizar o arquivo csv de exportações
-
+file = 'C:\\Users\\User\\PycharmProjects\\PythonProject\\data\\commodities_mes.csv'
 df = pd.read_csv(r'C:\\Users\\User\\PycharmProjects\\PythonProject\\data\\commodities_mes.csv')
 print(df.info())
 
@@ -18,7 +18,8 @@ nova_linha =pd.DataFrame([
 
 df = pd.concat([df, nova_linha], ignore_index=True)
 print(df)
-
+df.to_csv(file,index=True)
+print(f"✅ Arquivo salvo em: {file}")
 #Filtrar Commodities acima da média
 #descobrir a média
 #print(df.describe().round(2))

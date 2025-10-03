@@ -1,8 +1,10 @@
-,Mes,Commodity,Producao,Exportacoes
-1,Jan,Açúcar,45000,25000
-3,Jan,Soja,70000,50000
-6,Fev,Açúcar,47000,26000
-8,Fev,Soja,72000,51000
-13,Mar,Soja,69000,48000
-16,Abr,Soja,32000,29000
-17,Abr,Algodão,92000,51000
+,Unnamed: 0,Mes,Commodity,Producao,Exportacoes
+1,1.0,Jan,Açúcar,45000,25000
+3,3.0,Jan,Soja,70000,50000
+6,6.0,Fev,Açúcar,47000,26000
+8,8.0,Fev,Soja,72000,51000
+13,13.0,Mar,Soja,69000,48000
+16,16.0,Abr,Soja,32000,29000
+17,17.0,Abr,Algodão,92000,51000
+19,,Abr,Soja,32000,29000
+20,,Abr,Algodão,92000,51000
