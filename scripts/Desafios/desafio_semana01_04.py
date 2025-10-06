@@ -1,7 +1,7 @@
 import os.path
 
-
 import pandas as pd
+
 """ file= r'C:\\Users\\User\\PycharmProjects\\PythonProject\\data\\commodities_mes.csv'
 df =pd.read_csv(file)
 nova_linha = pd.DataFrame(
@@ -25,19 +25,19 @@ df.to_csv(file)
 print(f"Arquivo atualizado {file}")
 print(df)"""
 
-#Calcular a soma trimestral de expo por commodity
+# Calcular a soma trimestral de expo por commodity
 df = pd.read_csv(r'C:\Users\User\PycharmProjects\PythonProject\data\commodities_mes.csv')
 
 calcTrimestre = df.groupby(['Trimestre', 'Commodity'])['Exportacoes'].sum().reset_index()
 calcT1 = df.query("Trimestre == 'T1'").groupby('Commodity')['Exportacoes'].sum().reset_index()
 calcT2 = df.query("Trimestre == 'T2'").groupby('Commodity')['Exportacoes'].sum().reset_index()
 print(calcTrimestre)
-print("\nExportações primeiro trimestre\n",calcT1)
-print("\nExportções segundo trimestre\n",calcT2)
+print("\nExportações primeiro trimestre\n", calcT1)
+print("\nExportções segundo trimestre\n", calcT2)
 calcT1 = df.query("Trimestre == 'T1'").groupby('Commodity')['Exportacoes'].idxmax().reset_index()
 calcT2 = df.query("Trimestre == 'T2'").groupby('Commodity')['Exportacoes'].idxmax().reset_index()
-print("\nExportações primeiro trimestre com maior valor\n",calcT1)
-print("\nExportções segundo trimestre com o maior valor\n",calcT2)
+print("\nExportações primeiro trimestre com maior valor\n", calcT1)
+print("\nExportções segundo trimestre com o maior valor\n", calcT2)
 
 # Soma trimestral de exportações por commodity
 soma_trimestre = df.groupby(['Trimestre', 'Commodity'])['Exportacoes'].sum().reset_index()
@@ -56,10 +56,9 @@ crescimento['Crescimento'] = crescimento['T2'] - crescimento['T1']
 maior_crescimento = crescimento.sort_values(by='Crescimento', ascending=False).head(1)
 print("\nMaior crescimento de T1 para T2:\n", maior_crescimento)
 
-#salvar resultados
+# salvar resultados
 caminho = r'C:\\Users\\User\\PycharmProjects\\PythonProject\\data'
 
 soma_trimestre.to_csv(os.path.join(caminho, 'soma_trimestre.csv'), index=False)
 soma_trimestre.to_json(os.path.join(caminho, 'soma_trimestre.json'), orient='records', indent=4)
 soma_trimestre.to_excel(os.path.join(caminho, 'soma_trimestre.xlsx'), index=False)
-
