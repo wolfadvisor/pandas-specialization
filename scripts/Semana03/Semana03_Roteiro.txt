@@ -1,0 +1,48 @@
+Semana 03
+Introdução à Análise Visual
+🎯 Objetivo do dia 08
+
+Compreender como transformar dados numéricos em gráficos visuais para identificar tendências, padrões e comparações — habilidades centrais em Análise de Dados e Ciência de Dados.
+
+🧩 1️⃣ Raciocínio antes do código
+
+Antes de programar, pense assim:
+
+De onde vêm os dados?
+
+Você já tem um dataset padronizado (producao_mes_arrumado.csv), que contém colunas:
+
+Mes, Commodity, Producao, Exportacoes.
+
+O que você quer visualizar?
+
+A evolução mensal da Produção e Exportação para as commodities mais relevantes.
+
+Isso exige agrupar e somar os valores mensais por commodity.
+
+Como preparar o dataset para visualização?
+
+Fazer um groupby de Mes e Commodity, somando Producao e Exportacoes.
+
+Converter a coluna Mes em uma ordem lógica (jan → fev → ... → dez).
+
+Como decidir o tipo de gráfico?
+
+Gráfico de linha → ótimo para evolução temporal.
+
+Gráfico de barras → ótimo para comparações diretas.
+
+Que bibliotecas usar?
+
+matplotlib.pyplot → fornece controle total e personalização.
+
+seaborn → torna os gráficos mais bonitos e automáticos.
+
+🧠 2️⃣ Etapas do raciocínio prático
+Etapa	Ação	Objetivo
+1	Importar matplotlib e seaborn	Preparar o ambiente visual
+2	Ler o CSV padronizado	Obter o dataset limpo
+3	Agrupar dados por Mes e Commodity	Obter totais mensais
+4	Selecionar top 3 commodities	Focar nas principais
+5	Criar gráfico de linhas comparando Produção e Exportação	Visualizar evolução
+6	Personalizar título, legendas e salvar a imagem	Criar visual profissional
