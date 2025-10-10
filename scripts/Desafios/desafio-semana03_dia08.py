@@ -1,110 +1,114 @@
 """
-Mini-Desafio – Dia 08
-Tema: Comparando Commodities ao Longo do Ano
+Mini-Desafio – Dia 08: Comparando Commodities ao Longo do Ano
+Tema: Análise visual da Produção e Exportações das principais commodities.
+Objetivo: Identificar padrões sazonais e comparativos entre commodities.
+"""
 
-Criar gráficos comparativos de Produção e Exportações das
-principais commodities ao longo dos meses, identificando padrões e sazonalidades.
-
-Raciocínio do desafio
-
-Antes de sair codando, pense assim:
-
-O que quero comparar?
-→ As commodities com maior volume de Produção e Exportação.
-→ Quero ver se há meses em que aumentam ou caem.
-
-Como estruturar os dados?
-→ Agrupar por Mes e Commodity, somando os totais.
-→ Converter os meses em ordem cronológica.
-
-Como representar isso visualmente?
-
-Linha → evolução no tempo.
-
-Barras empilhadas → proporção entre commodities.
-
-Boxplot → dispersão (opcional).
-
-🧑‍🏫 Desafio prático
-✳️ Tarefas
-
-1️⃣ Agrupar o dataset por Mes e Commodity, somando Produção e Exportações.
-2️⃣ Criar dois gráficos de linha:
-
-Evolução da Produção mensal.
-
-Evolução das Exportações mensais.
-
-3️⃣ Criar um gráfico de barras empilhadas mostrando o total anual por commodity.
-4️⃣ Adicionar título, legendas e rótulos formatados.
-5️⃣ Salvar cada gráfico como imagem PNG em data/graficos/semana03_dia08/."""
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-
 from ClassesApoio.DataManager import DataManager
+from ClassesApoio.Format import dashboar_style
 
+# --- Carregar dataset ---
 file = r'C:\Users\User\PycharmProjects\PythonProject\data\commodities_mes.csv'
-
 df = pd.read_csv(file)
 
-# 'Index', 'Mes', 'sum', 'mean', 'Commodity', 'Producao', 'Exportacoes','Outlier_IQR_Prod', 'Outlier_IQR_Expo', 'Z_Score'
-
-ordem_m = ['Jan', 'Fev', 'Mar', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+# --- Ordenar meses corretamente ---
+ordem_m = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 df['Mes'] = pd.Categorical(df['Mes'], categories=ordem_m, ordered=True)
 
-sumProd = df.groupby(['Mes', 'Commodity'], as_index=True, observed=True)['Producao'].sum()
-
-sumExport = df.groupby(['Mes', 'Commodity'], as_index=True, observed=True)['Exportacoes'].sum()
-
-df_agrupado = (
-    df.groupby(['Mes', 'Commodity'], as_index=False, observed=True)[['Producao', 'Exportacoes']].sum()
-)
-# print(df_agrupado)
+# --- Agrupar dados ---
+df_agrupado = df.groupby(['Mes', 'Commodity'], as_index=False)[['Producao', 'Exportacoes']].sum()
 df_agrupado['Saldo'] = df_agrupado['Producao'] - df_agrupado['Exportacoes']
-# print(df_agrupado['Saldo'])
 df_agrupado['Commodity'] = df_agrupado['Commodity'].str.lower()
 
-# Selecionar as 5Top Commodities
-top5Ex = df_agrupado.groupby('Commodity')['Exportacoes'].sum().nlargest(5).index  # ele diz o top 5 por indice
-df_top5Ex = df_agrupado[df_agrupado['Commodity'].isin(top5Ex)]  # ele diz as linhas para gerar o grafico
-top5Prod = df_agrupado.groupby('Commodity')['Producao'].sum().nlargest(5).index
-df_top5Prod = df_agrupado[df_agrupado['Commodity'].isin(top5Prod)]  # ele diz as linhas para gerar o grafico
-# Graficos de linha Produção
-sns.set_theme(style='whitegrid')
+# --- Top 5 Commodities por Produção e Exportação ---
+top5_prod = df_agrupado.groupby('Commodity')['Producao'].sum().nlargest(5).index
+top5_exp = df_agrupado.groupby('Commodity')['Exportacoes'].sum().nlargest(5).index
 
+df_top5_prod = df_agrupado[df_agrupado['Commodity'].isin(top5_prod)]
+df_top5_exp = df_agrupado[df_agrupado['Commodity'].isin(top5_exp)]
+
+# --- Configuração de tema global ---
+sns.set_theme(style='whitegrid', palette='tab10')
+
+# ==========================================================
+# 📊 Gráfico 1 – Evolução Mensal da Produção
+# ==========================================================
 plt.figure(figsize=(10, 6))
-
 ax = sns.lineplot(
-    data=df_top5Prod,
+    data=df_top5_prod,
     x='Mes',
     y='Producao',
     hue='Commodity',
-    markers='o',
-    linewidth=2.5,
+    marker='o',
+    linewidth=2.5
 )
-
-# adicionando valores nas linhas
 for line in ax.lines:
     y_data = line.get_ydata()
     x_data = line.get_xdata()
     if len(x_data) == len(y_data):
         for x, y in zip(x_data, y_data):
-            ax.text(x, y, f'{y:.2f}', color=line.get_color(), fontsize=9, ha='center', va='bottom')
+            ax.text(x, y, f'{y:.2f}', color=line.get_color(),
+                    fontsize=9, ha='center', va='bottom')
 
-#---- Titulos e Eixos ---
-plt.title('Evolução Mensal da Produção de Commodities - TOP 5 -', fontsize=16)
-plt.xlabel('Mes')
-plt.ylabel('Producao')
-#--- Legenda ---
+plt.title('Evolução Mensal da Produção - Top 5 Commodities', fontsize=14)
+plt.xlabel('Mês')
+plt.ylabel('Produção (toneladas)')
 plt.legend(title='Commodity', title_fontsize=12, fontsize=10, loc='upper left', bbox_to_anchor=(1, 1))
-
 plt.tight_layout()
+DataManager.save_plot(filename='semana03_dia08_Producao', show=True)
 
-DataManager.save_plot(filename='Evolução Mensal da Produção de Commodities - TOP 5 -', show=True)
+# ==========================================================
+# 📊 Gráfico 2 – Evolução Mensal das Exportações
+# ==========================================================
+dashboar_style(tema='whitegrid', context='talk', paleta='coolwarm')
+plt.figure(figsize=(10, 6))
+ax = sns.lineplot(
+    data=df_top5_exp,
+    x='Mes',
+    y='Exportacoes',
+    hue='Commodity',
+    marker='s',
+    linewidth=2.5
+)
 
-soja = df_agrupado[df_agrupado['Commodity'] == 'soja']
-milho = df_agrupado[df_agrupado['Commodity'] == 'milho']
-print(soja[['Mes', 'Commodity', 'Producao', 'Exportacoes', 'Saldo']])
-print()
-print(milho[['Mes', 'Commodity', 'Producao', 'Exportacoes', 'Saldo']])
+for line in ax.lines:
+    y_data = line.get_ydata()
+    x_data = line.get_xdata()
+    if len(x_data) == len(y_data):
+        for x, y in zip(x_data, y_data):
+            ax.text(x, y, f'{y:.2f}', color=line.get_color(),
+                    fontsize=9, ha='center', va='bottom')
+
+
+plt.title('Evolução Mensal das Exportações - Top 5 Commodities', fontsize=14)
+plt.xlabel('Mês')
+plt.ylabel('Exportações (toneladas)')
+plt.legend(title='Commodity', title_fontsize=12, fontsize=10, loc='upper left', bbox_to_anchor=(1, 1))
+plt.tight_layout()
+DataManager.save_plot(filename='semana03_dia08_Exportacoes', show=True)
+
+# ==========================================================
+# 📊 Gráfico 3 – Barras Empilhadas Produção vs Exportações
+# ==========================================================
+df_total = df_agrupado.groupby('Commodity')[['Producao', 'Exportacoes']].sum().reset_index()
+
+df_total.plot(
+    x='Commodity',
+    kind='bar',
+    stacked=True,
+    figsize=(10, 6),
+    color=['#4e79a7', '#f28e2b']
+)
+plt.title('Produção e Exportações Totais por Commodity (Ano Completo)', fontsize=14)
+plt.ylabel('Toneladas')
+plt.xlabel('Commodity')
+plt.legend(title='Commodity', title_fontsize=12, fontsize=10, loc='upper left', bbox_to_anchor=(1, 1))
+plt.tight_layout()
+DataManager.save_plot(filename='semana03_dia08_BarrasEmpilhadas', show=True)
+
+print("✅ Desafio do Dia 08 finalizado com sucesso!")
+
+
