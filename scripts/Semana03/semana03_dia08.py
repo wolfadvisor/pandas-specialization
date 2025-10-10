@@ -54,7 +54,7 @@ DataManager.save_plot(filename='evolucao-mensal-producao-commodities',show=True)
 plt.show()
 
 plt.figure(figsize=(10,6))
-sns.lineplot(data=df_top3Prod,x='Mes',y='Exportacoes',hue='Commodity',markers=0)
+sns.lineplot(data=df_top3Prod,x='Mes',y='Exportacoes',hue='Commodity',markers='o')
 plt.title('Evolução Mensal da Exportações de Commodity',fontsize=14)
 plt.xlabel('Mês')
 plt.ylabel('Exportações (Toneladas)')
