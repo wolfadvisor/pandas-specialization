@@ -1,0 +1,36 @@
+🧮 Engenharia de Dados – Semana 03, Dia 10
+
+📘 Tema: Mini-Desafio – Tendência e Correlação Temporal
+📅 Status: Início da Aula
+
+🎯 Objetivo
+
+Analisar a tendência temporal da Produção e das Exportações das commodities e medir a força da correlação entre ambas ao longo dos meses.
+
+O foco é exercitar:
+
+agregação temporal (mensal e anual),
+
+cálculo de médias móveis,
+
+identificação de tendências (alta, queda, estabilidade),
+
+visualização conjunta da correlação Produção x Exportações no tempo.
+
+🧠 Raciocínio Analítico
+
+Antes de codar, pense assim:
+
+Etapa	Pergunta	Resposta esperada
+1️⃣	Qual variável quero acompanhar no tempo?	Produção e Exportações
+2️⃣	Como observar o comportamento?	Média móvel (3 meses) para suavizar ruído
+3️⃣	O que quero descobrir?	Se a tendência de Produção acompanha a de Exportações
+4️⃣	Como medir isso?	Correlação de Pearson por mês e análise visual (linha dupla)
+5️⃣	Como representar?	Gráficos de linha com suavização e cores distintas
+🧩 Tarefas
+
+1️⃣ Agrupar dados por Mês e Commodity, somando Produção e Exportações.
+2️⃣ Calcular médias móveis de 3 períodos para suavizar as curvas.
+3️⃣ Gerar gráfico de linhas comparando Produção e Exportações suavizadas.
+4️⃣ Criar um gráfico de dispersão temporal (Produção vs Exportações).
+5️⃣ Salvar resultados no diretório:data/graficos/semana03_dia10/
