@@ -1,0 +1,26 @@
+SEMANA 04
+Dia	Tema	Objetivo	Bibliotecas
+Dia 10 (próximo passo)	Séries Temporais e Modelagem Preditiva (Introdução)	Explorar tendências futuras e comportamento das commodities com base em médias móveis e regressão linear.	statsmodels, scikit-learn, seaborn
+Dia 11	Decomposição de Séries Temporais	Separar tendências, sazonalidade e ruído.	statsmodels.tsa
+Dia 12	Regressão Linear Preditiva	Prever exportações futuras com base na produção.	LinearRegression
+Dia 13	Avaliação de Modelos	Métricas MSE, RMSE, R² e validação cruzada.	sklearn.metrics
+Dia 14 (Encerramento do módulo)	Dashboard de Análise Completa	Criar painel integrando estatística, correlação e predição.	Plotly, Dash ou Streamlit
+
+Semana 04, Dia 10
+
+Tema: Modelagem Preditiva de Commodities com Regressão Linear
+Objetivo: usar uma regressão simples para prever Exportações com base em Produção e comparar as previsões com os valores reais.
+
+🧠 Fundamentos Teóricos
+
+A regressão linear simples é usada para modelar a relação entre duas variáveis quantitativas:
+
+Exportações = a+b x Produção + ε
+
+Onde:
+
+a = intercepto (valor base)
+
+b = coeficiente angular (quanto Exportações muda ao variar Produção)
+
+ε = erro (diferença entre o modelo e os dados reais)
