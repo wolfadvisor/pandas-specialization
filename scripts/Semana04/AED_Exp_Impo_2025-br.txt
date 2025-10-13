@@ -1,0 +1,52 @@
+Análise de Exportações e Importações
+🎯 Objetivo:
+
+Integrar e analisar bases EXP_2025_MUN.csv e IMP_2025_MUN.csv, identificando:
+
+Principais produtos e destinos comerciais;
+
+Volume total de exportações e importações;
+
+Saldo comercial municipal e estadual;
+
+Correlação entre exportação e importação por setor.
+
+⚙️ Etapas Técnicas
+1️⃣ Leitura e exploração dos arquivos
+
+Vamos carregar as bases e inspecionar suas colunas.
+
+2️⃣ Limpeza e padronização
+
+Trataremos nomes de colunas, removeremos nulos e criaremos uma coluna de Saldo Comercial = Exportação - Importação.
+
+3️⃣ Agrupamento e Análise
+
+Agruparemos por UF e Município para obter:
+
+Total exportado
+
+Total importado
+
+Saldo
+
+Top produtos por valor
+
+4️⃣ Visualização e correlação
+
+Faremos gráficos de:
+
+Top 10 Exportadores
+
+Top 10 Importadores
+
+Mapa de calor de correlação entre variáveis
+
+🧩 Bibliotecas Envolvidas
+Biblioteca	Função no Processo
+pandas	Manipulação e análise tabular
+numpy	Cálculos numéricos e vetorização
+matplotlib	Visualização básica de gráficos
+seaborn	Visualização estatística e mapas de calor
+os	Gerenciamento de diretórios e paths
+unidecode	Normalização de texto (remoção de acentos)
