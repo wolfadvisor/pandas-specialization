@@ -4,7 +4,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from seaborn import axes_style
-from DataManager import DataManager as dm
+from .DataManager import DataManager as dm
 
 
 class PlotManager:
@@ -70,3 +70,4 @@ class PlotManager:
             plt.show()
 
         return ax
+

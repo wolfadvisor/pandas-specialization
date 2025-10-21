@@ -11,10 +11,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import os
 
-from fontTools.subset import subset
-from hypothesis.extra.pandas import columns
-
-from ClassesApoio import Format
 from ClassesApoio.Format import dashboar_style, remover_acentos
 
 # === Configuração inicial e visual ===
@@ -100,7 +96,7 @@ print(df.describe())
 ANO = 2025  # ajustando o ano
 df_ano = df[df['CO_ANO'] == ANO]
 
-# === TOP 10 Municipios Exportadores ===
+# === TOP 10 Estados Exportadores ===
 top_exp = (
     df.groupby(['SG_UF_MUN', 'CO_MUN'], as_index=False)['VL_EXPORT']
     .sum()
@@ -108,6 +104,17 @@ top_exp = (
     .head(7)
 )
 print(top_exp)
+
+# ==== TOP 10 Estados Importadores
+
+top_imp = (
+    df.groupby(['SG_UF_MUN', 'CO_MUN'], as_index=False)['VL_IMPORT']
+    .sum()
+    .sort_values(by='VL_IMPORT', ascending=False)
+    .head(7)
+)
+print(top_imp)
+
 # --- Plot de Barras horizontais com nome dos estados e valores anotados
 plt.figure(figsize=(12, 8))
 sns.barplot(x='VL_EXPORT', y='SG_UF_MUN', hue='SG_UF_MUN', data=top_exp, palette='viridis', legend=False)
@@ -125,7 +132,112 @@ plt.savefig(out_file, dpi=300)
 plt.show()
 print(f'Arquivo salvo: {out_file}')
 
-# --- Também salvar tabela top10 em CSV ---
+# === Plot de Barras horizontais com nomes dos estados e valores anotados
+plt.figure(figsize=(12, 8))
+sns.barplot(x='VL_IMPORT', y='SG_UF_MUN', hue='SG_UF_MUN', data=top_imp, palette='viridis', legend=False)
+plt.title(f'Top 7 Estados Importadores - {ANO}')
+plt.xlabel('Valor FOB (US$)')
+plt.ylabel('UF')
+# Anotar valores no final de cada barra
+for i, (valor, mun) in enumerate(zip(top_imp['VL_IMPORT'], top_exp['SG_UF_MUN'])):
+    plt.text(valor, i, f'  {valor:,.0f}', va='center', fontsize=10)
+
+plt.tight_layout()
+out_file = os.path.join(out_dir, f'Top7_estados_importadores_{ANO}.png')
+plt.savefig(out_file, dpi=300)
+plt.show()
+
+# --- Grafico side by side para analise de valores absolutos
+df_comp = pd.merge(
+
+    top_exp[['SG_UF_MUN', 'VL_EXPORT']],
+    top_imp[['SG_UF_MUN', 'VL_IMPORT']],
+    on='SG_UF_MUN',
+    how='outer'
+).fillna(0)
+
+# --- Converter para formato longo
+df_long = df_comp.melt(
+    id_vars='SG_UF_MUN',
+    value_vars=['VL_EXPORT', 'VL_IMPORT'],
+    var_name='Tipo',
+    value_name='Valor'
+
+)
+
+df_long['Tipo'] = df_long['Tipo'].map({
+    'VL_EXPORT': 'Exportações',
+    'VL_IMPORT': 'Importações'
+})
+
+#---- Criando o grafico side by side de valores absoluttos
+
+plt.figure(figsize=(12,8))
+sns.barplot(
+    data= df_long,
+    x='Valor',
+    y='SG_UF_MUN',
+    hue='Tipo',
+    palette=['seagreen', 'darkorange']
+)
+plt.title(f'Comparativo: Exportadores vs Importadores ({ANO})')
+plt.xlabel('Valor FOB (US$)')
+plt.ylabel('UF')
+plt.legend(title='Tipo de Fluxo', loc='lower right')
+
+# Anotar valores
+for container in plt.gca().containers:
+    plt.bar_label(container, fmt='%.0f', label_type='edge', fontsize=9)
+
+plt.tight_layout()
+out_file = os.path.join(out_dir, f'Comparativo_Exportadores_vs_Importadores_{ANO}.png')
+plt.savefig(out_file, dpi=300)
+plt.show()
+
+#--- Espelhado (exportações para um lado, importações para o outro)
+df_esp = pd.merge(
+    top_exp[['SG_UF_MUN','VL_EXPORT']],
+    top_imp[['SG_UF_MUN','VL_IMPORT']],
+    on='SG_UF_MUN',
+    how='outer',
+).fillna(0)
+
+df_esp = df_esp.sort_values('VL_EXPORT',ascending=True)
+
+plt.figure(figsize=(12,8))
+#exportações lado esquerdo
+plt.barh(df_esp['SG_UF_MUN'],df_esp['VL_EXPORT'],color='seagreen',label='Exportações')
+#importações lado esquerdo
+plt.barh(df_esp['SG_UF_MUN'],df_esp['VL_IMPORT'],color='darkorange',label='Importações')
+plt.title(f'Comparativo: Exportadores vs Importadores ({ANO})')
+plt.xlabel('Valor FOB (US$)')
+plt.ylabel('UF')
+
+#linha central
+plt.axvline(0, color='black',linewidth=1)
+plt.legend(loc= 'lower right')
+
+# Anotar valores nas extremidades
+for i, (exp, imp) in enumerate(zip(df_esp['VL_EXPORT'], df_esp['VL_IMPORT'])):
+    plt.text(exp + 10000000, i, f'{exp:,.0f}', va='center', fontsize=9, color='seagreen')
+    plt.text(-imp - 10000000, i, f'{imp:,.0f}', va='center', fontsize=9, color='darkred', ha='right')
+
+plt.tight_layout()
+out_file = os.path.join(out_dir, f'Comparativo_Exportadores_vs_Importadores_esp_{ANO}.png')
+plt.savefig(out_file, dpi=300)
+plt.show()
+
+#Somando por UF
+
+df['UF_VL_EXPORT']= df.groupby('SG_UF_MUN')['VL_EXPORT'].sum()
+df['UF_VL_IMPORT']= df.groupby('SG_UF_MUN')['VL_IMPORT'].sum()
+df['SALDO_COMERCIAL_UF'] = df['UF_VL_EXPORT'] - df['UF_VL_IMPORT']
+
+print(df['SALDO_COMERCIAL_UF'])
+
+# --- Também salvar tabela top7 em CSV ---
 csv_out = os.path.join(out_dir, f'top7_municipios_exportadores_{ANO}.csv')
 top_exp.to_csv(csv_out, index=False)
 print(f'Tabela salva: {csv_out}')
+csv_out = os.path.join(out_dir, f'top7_estados_importadores_{ANO}.csv')
+top_imp.to_csv(csv_out, index=False)

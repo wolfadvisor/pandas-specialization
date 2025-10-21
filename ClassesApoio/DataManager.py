@@ -1,7 +1,9 @@
 import os
 import matplotlib.pyplot as plt
-import pandas as pd
+
 import datetime
+
+import pandas as pd
 
 
 class DataManager:
@@ -53,3 +55,7 @@ class DataManager:
             print(f'❌ Erro ao salvar o gráfico: {e}')
             return None
 
+
+    def carregar_fase1(self):
+        path = r'C:\Users\User\PycharmProjects\PythonProject\reports\semana04_dia10\fase1_comex_preparado_2025.csv'
+        return  pd.read_csv(path)
