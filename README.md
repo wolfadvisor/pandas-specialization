@@ -11,10 +11,10 @@ Cada semana está organizada em pastas com códigos, exercícios e projetos apli
 ---
 
 ## 📂 Estrutura do Repositório
-- `notebooks/` → Exercícios em **Jupyter Notebook**.
+- `notebooks/` → Exercícios em **Jupyter Notebook** ainda não atualizados ou usados.
 - `scripts/` → Códigos Python organizados por módulos.
-- `data/` → Dados de exemplo (CSV/Excel).
-- `reports/` → Relatórios exportados em Excel.
+- `data/` → Dados de exemplo sendo brutos e limpos (CSV/Excel).
+- `reports/` → Relatórios exportados em Excel, csv, png e pdf.
 - `requirements.txt` → Lista de dependências do projeto.
 
 ---
@@ -70,4 +70,5 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+
 
